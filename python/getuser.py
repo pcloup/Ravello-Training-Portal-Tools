@@ -27,9 +27,7 @@ headers = {"Content-Type": "application/json"}
 
 for id in range(1,args.num_of_students):
     ###############
-    ####
-    ####   Get the Student ID
-    ####
+    ####   Authenticate the Student and get its ID
     ##############
     url = base_url +"/login"
     try:
@@ -39,6 +37,9 @@ for id in range(1,args.num_of_students):
     except (RuntimeError, TypeError, NameError, KeyError, ValueError):
         print "Error on authenticating the student :",id
 
+    ###############
+    ####   Get the Course ID and Class ID
+    ##############
     url = base_url+"/students/"+StudentID
     try:
         response = requests.request("GET", url, headers=headers, auth=(username, password))
@@ -49,7 +50,10 @@ for id in range(1,args.num_of_students):
     except (RuntimeError, TypeError, NameError, KeyError, ValueError):
         print "Error on listing the student details :",id
 
-
+    ###############
+    ####   Get the Application ID and details for the Class
+    ##############
+    # script is assuming there is a single Class and a Single course in the repo.
     url = base_url+"/students/"+StudentID+"/class/"+ClassID+"/apps"
     try:
         response = requests.request("GET", url, headers=headers, auth=(username, password))
@@ -58,7 +62,9 @@ for id in range(1,args.num_of_students):
     except (RuntimeError, TypeError, NameError, KeyError, ValueError):
         print "Error on listing the student apps :",id
 
-
+    ###############
+    ####   Get the List of VMs deployed in this Class for this Student
+    ##############
     url = base_url+"/students/"+StudentID+"/class/"+ClassID+"/apps/"+AppID
     try:
         response = requests.request("GET", url, headers=headers, auth=(username, password))
